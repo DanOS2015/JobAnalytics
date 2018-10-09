@@ -1,0 +1,32 @@
+{% extends 'frontend/base.html' %}
+
+{% block body %}
+    <div class="col-sm-8 col-sm-offset-2" style="background: white;">
+       {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h2>Job Board</h2>
+        <table class="table">
+            <thead>
+                <th>Logo</th>
+                <th>Job Title</th>
+                <th>Employer</th>
+                <th>Details</th>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                    <tr>
+                        <td><img src="{{ job.employer_logo.url }}" class="img-responsive" height="35px" width="35px"/></td>
+                        <td>{{ job.job_title }}</td>
+                        <td>{{ job.employer }}</td>
+                        <td><a href="{% url 'job_info' job.id %}"><button class="btn btn-primary">View</button></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

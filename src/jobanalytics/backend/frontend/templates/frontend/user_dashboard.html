@@ -1,0 +1,71 @@
+{% extends 'frontend/base.html' %}
+
+{% block body %}
+    {% load staticfiles %}
+    <div id="userSettings" class="user_settings">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="text-center">
+            <img src="{% static 'frontend/images/user.png' %}">
+            <h3 style="color: white;">{{ username }}</h3>
+            <a href="{% url 'delete_user_check' username %}"><button class="btn btn-danger">Delete Account</button></a>
+        </div>
+    </div>
+    <div id="main">
+        <div class="col-lg-10 col-sm-offset-1">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'previous_posts' username %}"><button class="btn btn-success">Create Job</button></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="#"><button class="btn btn-info" onclick="openNav()"><span class="glyphicon glyphicon-cog"></span> Settings</button></a></li>
+            </ul>
+            <h2 class="text-center">{{ username }}'s Dashboard</h2>
+        </div>
+        <div class="col-lg-10 col-sm-offset-1" style="background: white;">
+            <h3>Your Posted Jobs:</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Logo</th>
+                        <th>Job Title</th>
+                        <th>Details</th>
+                        <th>Applicants</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in posted_jobs %}
+                        <tr>
+                            <td><img src="{{ job.employer_logo.url }}" class="img-responsive" height="35px" width="35px"/></td>
+                            <td>{{ job.job_title }}</td>
+                            <td><a href="{% url 'job_info' job.id %}"><button class="btn btn-primary">View</button></a></td>
+                            <td><a href="{% url 'applicants_list' user.username job.id %}"><button class="btn btn-primary">View</button></a></td>
+                            <td>
+                                <a href="{% url 'delete_job_check' job.id %}" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("userSettings").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("userSettings").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+        }
+    </script>
+{% endblock %}

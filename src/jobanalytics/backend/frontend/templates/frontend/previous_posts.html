@@ -1,0 +1,24 @@
+{% extends 'frontend/base.html' %}
+
+{% block body %}
+    <div class="col-sm-8 col-sm-offset-2">
+        <ul class="list-inline">
+            <li><h2>Would you like to post as a previous employer listed below or as a new one?</h2></li>
+            <li></li><a href="{% url 'add_job' %}" class="btn btn-success">Post as new employer</a></li>
+        </ul>
+        <ul class="list-group">
+            {% for jobs in posts.items %}
+                <li class="list-group-item">
+                    {% for details in jobs.1.items %}
+                        {% if details.0 == "employer" %}
+                            <h2>{{ details.1 }}</h2>
+                        {% else %}
+                            <h5>{{ details.1 }}</h5>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="{% url 'add_job_with_previous' jobs.0 %}" class="btn btn-success">Post as this employer</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

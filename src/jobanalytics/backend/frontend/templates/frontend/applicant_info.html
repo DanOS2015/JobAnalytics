@@ -1,0 +1,63 @@
+{% extends 'frontend/base.html' %}
+{% block body %}
+    <div class="col-md-4 applicant-list">
+        <div class="well" style="background: white; overflow: auto; max-height: 750px;">
+            <a href="{% url 'applicants_list' applicant.job.user.username applicant.job.id %}"><button class="btn btn-info">Back</button></a>
+            <h3>Requirements</h3>
+            {% for req in matched %}
+               <p class="text-success">{{ req.requirement.requirement_detail }} <span class="glyphicon glyphicon-ok" style="color:green;"></span></p>
+            {% endfor %}
+            {% for req in not_matched %}
+               <p class="text-danger">{{ req.requirement.requirement_detail }} <span class="glyphicon glyphicon-remove" style="color:red;"></span></p>
+            {% endfor %}
+            <h3>Predicted Work Ethic</h3>
+            <p>{{ applicant.performance }}</p>
+            <h3>Education</h3>
+            {% for edu in education %}
+                <p>{{ edu }}</p>
+            {% endfor %}
+            <h3>Work Experience</h3>
+            {% for exp in work_experience %}
+                <p>{{ exp }}</p>
+            {% endfor %}
+            <h3>Skills</h3>
+            <ul style="list-style-type:circle">
+                {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-7 col-sm-offset-4" style="background: white; margin-bottom: 15px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#formattedCV">Formatted CV</a></li>
+            <li><a data-toggle="tab" href="#rawCV">Raw CV</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="formattedCV" class="tab-pane fade in active">
+                <div class="text-center">
+                    <h3>{{ applicant.first_name }} {{ applicant.last_name }}</h3>
+                    <h3>{{ applicant.email }}</h3>
+                    <h3>{{ applicant.phone_number }}</h3>
+                </div>
+                <h3>Education</h3>
+                {% for line in education_section %}
+                    <p>{{ line }}</p>
+                {% endfor %}<br>
+                <h3>Work Experience</h3>
+                {% for line in work_section %}
+                    <p>{{ line }}</p>
+                {% endfor %}<br>
+                <h3>Skills</h3>
+                {% for line in skills_section %}
+                    <p>{{ line }}</p>
+                {% endfor %}<br>
+            </div>
+            <div id="rawCV" class="tab-pane fade">
+                <div class="text-left">
+                    {{ lines|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

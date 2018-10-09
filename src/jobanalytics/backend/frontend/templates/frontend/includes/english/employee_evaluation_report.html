@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<div class="col-sm-10 col-sm-offset-1" style="background: white;">
+    <div class="container">
+        <h2>Data Report</h2>
+        <p>While Job Analytic's main goal was to make the process of hiring easier for you, the employer, we wanted to stand out. Predicting employee work ethic
+            helps you get a better idea of what kind of person you're hiring. We use a Random Forest prediction model with an entropy criterion to predict how well
+            a certain applicant will perform in a role you posted. The dataset we use to predict employee work ethic is titled “Human Resource Analytics”. It contains
+            the following data:</p>
+        <ul>
+            <li><strong>Satisfaction Level: </strong>How happy an employee is in their role on a scale of 0 - 1</li>
+            <li><strong>Average Monthly Hours: </strong>Average monthly hours at the workplace</li>
+            <li><strong>Time spent at company: </strong>How long an employee has been with the company in years</li>
+            <li><strong>Work Accident: </strong>Whether the employee has had a work accident (1 or 0)</li>
+            <li><strong>Promotion in the last 5 years: </strong>Whether they’ve had a promotion in the last 5 years (1 or 0)</li>
+            <li><strong>Number of Projects: </strong>The number of projects completed while at work</li>
+            <li><strong>Salary: </strong>What kind of salary the employee is earning (low, medium or high)</li>
+            <li><strong>Left: </strong>Whether the employee has left their previous role prematurely or abruptly (1 or 0)</li>
+            <li><strong>Last Evaluation: </strong>How well an employee performs in their role (0 - 1)</li>
+        </ul>
+        <p> We have modified the data is this dataset to produce the most accurate prediction algorithm. Before we discuss the changes we made, let's have a look at the initial data given.
+            The following graph shows the distribution of values in the 'Last Evaluation' column: </p>
+        <img src="{% static 'frontend/images/employee_evaluation_dist_bar.png' %}">
+        <img src="{% static 'frontend/images/employee_evaluation_dist_pie.png' %}" style="width: 500px;">
+        <p>This histogram helped us learn that around 52% of employees in our dataset have an evaluation rate greater than or equal to 70%,
+            leaving 48% to have a lower evaluation rate. There is also a bimodal distribution for employees with low (<0.6) and high (>0.8) rates. Why is there this
+            distribution? How does this influence other attributes in our dataset? We wanted to further analyse
+            this evaluation distribution further. We used a correlation heat map plot to see what attributes have an affect on evaluation rates and what other
+            relationship between attributes could we observe.</p>
+        <p>Observing this graph, we can see what relationship attributes have with each other. In the top left of the graph, we can see an orange/red big square formed across some attributes. This is because there appears to be a positive
+            correlation relationship between last_evaluation, number_project and average_montly_hours. This could mean employees who do more projects and work more
+            hours are evaluated highly. This is interesting, why would these attributes in particular have a greater effect compared to others. The other attributes like satisfaction level, the time spent at the company, whether they've had a
+            work accident or not, a promotion in the last 5 years and whether or not they left their role prematurely seem to have
+            little effect on employee evaluation.</p>
+        <img src="{% static 'frontend/images/correlation_plot.png' %}" class="centre">
+        <p><img src="{% static 'frontend/images/KDE_evaluations_vs_num_projects.png' %}" style="height: 274px; width: 670px; float: right;">
+            <img src="{% static 'frontend/images/KDE_evaluations_vs_average_monthly_hours.png' %}" style="height: 274px; width: 670px; float: right;">
+            Now that we know of this positive correlation, let's see how each of these attributes (Number of project and
+            average monthly working hours) have an affect on evaluation rate. We'll use KDE plots to show this. You'll see that
+            both graphs show almost identical results</p>
+        <p>The first graph shows the distribution of employees based on evaluation rate and number of projects worked on. We've split
+            it to show the frequency of employees who have worked on less than or equal to 3 projects and those who have worked on
+            more than 3 projects. We can see that employees who have worked on a low number of projects are more likely to be evaluated less than employees working
+            on more than 3 projects. A noticeable feature of this graph is that there's a high frequency of low project number employees being rated from (0.4) to (0.6). There is a
+            similar but slightly smaller frequency of high project number employees. This goes from (0.75) all the way up to (1.0). The KDE plot for evaluation rate vs average monthly
+            hours produces similar results.</p>
+        <p>In the second KDE plot, we have split the employee frequencies to employees who work less than or equal to the Irish average monthly working hours (156 according to citzensinformation.ie)
+            against employees who work more. Employees who work less are more likely to get an evaluation rate (<=0.6). In contrast, employees who work more
+            are more likely to get an evaluation rate (>0.6).</p>
+        <p>So in terms of the relationship between evaluation rate and other attributes in our dataset we have learnt two things. The greater the number of projects an employee works on, the more likely they are to work harder. While
+            in contrast the lower the number the more likely they are to be evaluated lowly. An employee working more than the average monthly hour rate will be more likely to be evaluated highly
+            than someone who is working less than that.</p>
+        <p>Now that we've seen how the number of projects and monthly hours worked have an affect on evaluation rate individually, let's see how they
+        impact together. We'll do this using an lmplot. To make the graph easier to understand and look at, we'll make the input data the last evaluation
+        and average monthly hours columns. We'll use the number of projects as the hue for this graph and we'll group some of the values together to show
+        the clusters more clearly.</p>
+        <img src="{% static 'frontend/images/lmplot.png' %}" class="centre">
+        <p>Observing this graph at first can be a little confusing. But, if you look closely you can see the present of 3 clusters:</p>
+        <ul>
+            <li>The first cluster is displayed in the top right of the graph and made up of blue dots. This represents the top evaluated employees in
+            our dataset (around 0.8 to just below 1.0). This shows that employees who work more hours and work on more projects are more likely to be rated
+            highly than those who don't.</li><br>
+            <li>The second and most visible cluster is the big green one taking up most of the centre of the graph. This represents employees who have worked on
+            4 or 5 projects. The cluster's evaluation rate ranges from just below (0.5) all the way up to (1.0) and it's work hours range from below 150 to below 300.
+            While this cluster of employees do not show a universal high or low evaluation, there seems to be a close to 50/50 chance of being rated high or low in this cluster.</li><br>
+            <li>The last cluster is not so clear at first glance. The red dots representing employees who have worked on 2 or 3 projects are quite disperse. Despite this,
+            we can observe a small red cluster formed in the bottom left of the graph. A small majority of red dots are contained here with the exception of a few
+            outliers. This cluster's evaluation rate ranges from below (0.4) to just up to around (0.75). This cluster represent the employees who work on very few
+            project and low working hours. The majority of these employees have a poor evaluation rating.</li><br>
+        </ul>
+        <p>For the purpose of making our prediction algorithm more predictable, we split the last_evaluation column into categories. </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Range</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Greater Than 70%</td>
+                    <td>Excellent Worker</td>
+                </tr>
+                <tr>
+                    <td>Between 40% - 70%</td>
+                    <td>Satisfactory Worker</td>
+                </tr>
+                <tr>
+                    <td>Less Than 40%</td>
+                    <td>Poor Worker</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

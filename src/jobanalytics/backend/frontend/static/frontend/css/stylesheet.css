@@ -1,0 +1,141 @@
+body {
+    background: url('../images/dust_scratches.png');
+    margin-top: 60px;
+    height: 100%;
+}
+
+p {
+    word-wrap: break-word;
+}
+
+.centre {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.footer {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   color: #8B8A8A;
+   text-align: right;
+   padding-right: 10px;
+}
+
+.carousel-control.transparent{
+    background: rgba(0,0,0,0);
+}
+
+.carousel-caption{
+    color: black;
+}
+
+.item{
+    margin-bottom: 10px;
+}
+
+.carousel-caption {
+    top: 0;
+    bottom: auto;
+}
+
+.inline-heading {
+    display: inline;
+}
+
+.img-responsive.inline {
+    display:inline;
+}
+
+.navbar-center {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.col-md-4.applicant-list {
+    position: fixed;
+}
+
+.col-md-5.jobposting {
+    position: fixed;
+    right: 0.5em;
+    overflow-x: hidden;
+}
+
+.table.applicant-list th {
+    text-align: center;
+}
+
+.table.applicant-list thead th {
+    background: url('../images/bg.gif');
+	background-repeat: no-repeat;
+	background-position: right;
+	height: auto;
+}
+
+.table.applicant-list thead tr .headerSortUp {
+     background: url('../images/asc.gif');
+     background-repeat: no-repeat;
+     background-position: right;
+}
+
+.table.applicant-list thead tr .headerSortDown {
+     background: url('../images/desc.gif');
+     background-repeat: no-repeat;
+     background-position: right;
+}
+
+.progress {
+    background-color: #aaa;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.user_settings {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.user_settings a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #FEFEFD;
+    display: block;
+    transition: 0.3s;
+}
+
+.user_settings a:hover {
+    color: #f1f1f1;
+}
+
+.user_settings .closebtn {
+    position: absolute;
+    color: #FEFEFD;
+    top: 1;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .user_settings {padding-top: 15px;}
+  .user_settings a {font-size: 18px;}
+}

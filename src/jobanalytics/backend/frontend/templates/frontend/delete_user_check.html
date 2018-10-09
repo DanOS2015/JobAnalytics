@@ -1,0 +1,20 @@
+{% extends 'frontend/base.html' %}
+{% block body %}
+    <div class="col-sm-8 col-sm-offset-2" style="background: white;">
+        <div class="form-group">
+            <div class="text-center">
+                <h2>Are you sure you want to delete your account, {{ user.username }}?</h2>
+                <a href="{% url 'delete_user' user.id %}" class="btn btn-success">Yes</a>
+                <a href="{% url 'user_dashboard' user.username %}" class="btn btn-danger">No</a><br>
+            </div>
+            {% if jobs %}
+                <h3>The following job posts along with their applicants will be deleted: </h3>
+                {% for job in jobs %}
+                    <ul>
+                        <li><h3>{{ job.job_title }} posted by {{ job.employer }}</h3></li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'frontend/base.html' %}
+{% block body %}
+    {% load staticfiles %}
+    <script src="{% static 'frontend/js/tablesorter-master/jquery-latest.js' %}"></script>
+    <script src="{% static 'frontend/js/tablesorter-master/jquery.tablesorter.js' %}"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
+    <script src="{% static 'frontend/js/applicant-list-sorter.js' %}"></script>
+    <script src="{% static 'frontend/js/applicant-chart.js' %}"></script>
+    <div class="col-md-6 col-xs-offset-1" style="background: white;">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3> Applicants for {{ job.job_title }} job</h3>
+        <table id="applicantlist" class="table applicant-list">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Predicted Work Ethic</th>
+                    <th>Job match</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for applicant in applicants %}
+                    <tr>
+                        <td>{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                        <td>{{ applicant.performance }}</td>
+                        <td>{{ applicant.match_ratio }} %</td>
+                        <td><a href="{% url 'applicant_info' applicant.job.user.username applicant.job.id applicant.id %}"><button class="btn btn-primary">View</button></a></td>
+                        <td>
+                            <a href="{% url 'delete_applicant_check' applicant.id %}" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'frontend/includes/english/applicant_list_charts.html' %}
+{% endblock %}

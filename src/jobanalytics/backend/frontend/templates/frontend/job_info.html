@@ -1,0 +1,30 @@
+{% extends 'frontend/base.html' %}
+
+{% block body %}
+    <div class="col-sm-8 col-sm-offset-2" style="background: white; margin-bottom: 10px;">
+        <div class="form-group">
+            <h3 class="inline-heading"><img src="{{ job.employer_logo.url }}" class="img-responsive inline" height="45px" width="45px" style="display:inline;"/> {{ job.job_title }}</h3>
+            <h3><strong>Employer:</strong></h3>
+            <h4>{{ job.employer }}</h4>
+            <h3><strong>Address</strong></h3>
+            <h4>{{ job.address_line_1 }}</h4>
+            {% if job.address_line_2 %}
+                <h4>{{ job.address_line_2 }}</h4>
+            {% endif %}
+            <h4>{{ job.city }}</h4>
+            <h4>{{ job.county }}</h4>
+            <h3><strong>Job Description:</strong></h3>
+            <p>{{ job.job_description|safe }}</p>
+            <h3><strong>Job Requirements:</strong></h3>
+            <ul>
+                {% for requirement in requirements %}
+                    <li>{{ requirement.requirement_detail }}</li>
+                {% endfor %}
+            </ul>
+            {% if is_posted_user %}
+                <a href="{% url 'update_job' job.id %}"><button class="btn btn-primary">Edit Details</button></a>
+            {% endif %}
+            <a href="{% url 'cv_upload' job.id %}"><button class="btn btn-success">Apply</button></a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'frontend/base.html' %}
+{% block body %}
+    <div class="col-sm-8 col-sm-offset-2" style="background: white;">
+        <div class="text-center">
+            <h1> {{ job.job_title }} posted by {{ job.employer }}</h1>
+            <h2>Are you sure you want to delete this job posting?</h2>
+            <a href="{% url 'delete_job' job.id %}" class="btn btn-success">Yes</a>
+            <a href="{% url 'user_dashboard' job.user.username %}" class="btn btn-danger">No</a><br>
+        </div>
+        <h2 class="inline-heading"><img src="{{ job.employer_logo.url }}" class="img-responsive inline" height="45px" width="45px" style="display:inline;"/> {{ job.job_title }}</h2>
+        <h2>Employer: </h2>
+        <h4>{{ job.employer }}</h4>
+        <h2>Address</h2>
+        <h4>{{ job.address_line_1 }}</h4>
+        {% if job.address_line_2 %}
+            <h4>{{ job.address_line_2 }}</h4>
+        {% endif %}
+        <h4>{{ job.city }}</h4>
+        <h4>{{ job.county }}</h4>
+        <h2>Job Description: </h2>
+        <p>{{ job.job_description|safe }}</p>
+        <h2>Job Requirements: </h2>
+        <ul>
+            {% for requirement in requirements %}
+                <li>{{ requirement.requirement_detail }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

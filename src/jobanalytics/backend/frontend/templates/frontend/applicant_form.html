@@ -1,0 +1,45 @@
+{% extends 'frontend/base.html' %}
+
+{% block body %}
+    <div class="text-center">
+        <h3>Application form for {{ job.job_title }} job: Step 2</h3>
+        <div class="container">
+            <div class="progress">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1" style="background: white;">
+        <h3>Applicant form</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'frontend/form_template.html' %}
+                <button class="btn btn-success" type="submit">Submit</button>
+                <a href="{% url 'cv_upload' job.id %}" class="btn btn-danger">Cancel</a>
+            </form>
+        </div>
+    </div>
+    {% include 'frontend/includes/english/applicant_form_instructions.html' %}
+{% endblock %}
