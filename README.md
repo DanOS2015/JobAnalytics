@@ -12,3 +12,5 @@ employer with some statistics about their pool of applicants that have applied f
 postings. Job Analytics is built using the Django web framework and uses a Random Forest
 classifier to predict applicant work ethic.
 
+### Video Demonstration: https://youtu.be/YEb6ugv2KbY
+
