@@ -30,7 +30,7 @@ plotly==2.1.0
 probscale==0.2.3
 psycopg2==2.7.3.2
 pyparsing==2.2.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 PyQt5==5.10.1
 python-dateutil==2.6.1
 python-docx==0.8.6
